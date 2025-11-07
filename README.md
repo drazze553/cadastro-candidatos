@@ -1,9 +1,9 @@
-🧑‍💻 Cadastro de Candidatos
+### 🧑‍💻 Cadastro de Candidatos
 
 Este repositório contém um pequeno aplicativo front-end para cadastro, listagem, edição e exclusão de candidatos, desenvolvido como parte de um teste técnico.
 O foco foi demonstrar domínio de **linguagens** e **automação de processos**, com integração a webhooks **n8n** que se comunicam diretamente com uma planilha do **Google Planilhas**.
 
-📁 Estrutura do projeto
+### 📁 Estrutura do projeto
 
 Arquivos principais:
 
@@ -13,7 +13,8 @@ Contém o formulário de cadastro, a tabela dinâmica de resultados, o campo de 
 Usa um tema escuro com tons suaves e transparências, inspirado em interfaces modernas de dashboards.
 - `cadastro_candidatos_app.js` — Lógica principal do app.
 Implementa toda a parte de CRUD via Fetch API, integração com os webhooks do n8n, manipulação da tabela, busca em tempo real e exportação CSV.
-- `Planilha utilizada` - https://docs.google.com/spreadsheets/d/1OdMG-x0yD_UmWN7yf-uY3uYeuUHzRf-NTyMRGwHsGfI/edit?usp=sharing
+- `Planilha utilizada` - https://docs.google.com/spreadsheets/d/1OdMG-x0yD_UmWN7yf-uY3uYeuUHzRf-NTyMRGwHsGfI
+
 ⚙️ Integração com o n8n + Google Planilhas
 
 O projeto foi conectado a quatro webhooks distintos configurados no n8n, cada um responsável por uma operação:
@@ -32,9 +33,22 @@ Esses webhooks se conectam ao nó Google Planilhas dentro do **n8n**, utilizando
 - Update Row (para editar)
 - Delete Rows (para excluir)
 
+### Diagrama do fluxo (n8n)
+![Fluxo n8n](./n8n_flow.jpg)
+
+### Fluxo n8n
+O fluxo completo usado neste projeto está disponível no arquivo  
+[`cadastro_candidatos_n8n.json`](./cadastro_candidatos_n8n.json).
+
+Para importar no seu ambiente:
+1. Abra o n8n.
+2. Vá em **Import → From file**.
+3. Selecione o arquivo JSON e clique em **Import**.
+4. Atualize as credenciais do Google Sheets e URLs de webhook conforme necessário.
+
 Toda a comunicação é feita em JSON via fetch(), com tratamento básico de erros e feedback visual no front-end.
 
-🧠 Lógica do Front-end
+### 🧠 Lógica do Front-end
 
 O JavaScript foi escrito de forma modular e legível, sem uso de frameworks.
 Alguns pontos de destaque:
@@ -58,7 +72,7 @@ Busca e exportação:
 A busca é feita em tempo real, filtrando por nome, e-mail ou área.
 A exportação gera um arquivo .csv direto no navegador.
 
-🧩 Tecnologias utilizadas
+### 🧩 Tecnologias utilizadas
 
 - `HTML5` – Estrutura semântica, acessível e limpa.
 - `CSS3` – Layout responsivo com grid, flexbox e tema escuro personalizado.
