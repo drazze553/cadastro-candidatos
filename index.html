@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Cadastro de Candidatos — Teste Técnico</title>
+  <link rel="stylesheet" href="cadastro_candidatos_app.css">
+</head>
+
+<body>
+  <div class="wrap">
+    <header>
+      <div class="avatar">AD</div>
+      <div>
+        <h1>Cadastro de Candidatos — Teste Técnico</h1>
+        <p class="lead">Formulário simples para inserir, visualizar, editar e excluir registros. Armazenamento feito diretamente no Google Planilhas via webhook.</p>
+      </div>
+    </header>
+
+    <div class="grid">
+      <div class="card">
+        <form id="form" autocomplete="off">
+          <div class="field">
+            <label for="nome">Nome completo</label>
+            <input id="nome" name="nome" placeholder="Ex: João da Silva" required />
+          </div>
+
+          <div class="field">
+            <label for="email">E‑mail</label>
+            <input id="email" name="email" type="email" placeholder="exemplo@dominio.com" required />
+          </div>
+
+          <div class="row">
+            <div class="col field">
+              <label for="telefone">Telefone</label>
+              <input id="telefone" name="telefone" placeholder="(11) 99999-9999" />
+            </div>
+            <div class="col field">
+              <label for="area">Área de interesse</label>
+              <select id="area" name="area">
+                <option value="Desenvolvimento">Desenvolvimento</option>
+                <option value="Design">Design</option>
+                <option value="Produto">Produto</option>
+                <option value="Dados">Dados</option>
+                <option value="Outros">Outros</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="data">Data de cadastro</label>
+            <input id="data" name="data" type="date" />
+            <div class="note">Se preferir, a data é preenchida automaticamente ao salvar.</div>
+          </div>
+
+          <div class="actions">
+            <button id="btnSave" type="submit">Salvar registro</button>
+            <button id="btnClearForm" type="button" class="ghost">Limpar formulário</button>
+            <button id="btnExport" type="button" class="ghost">Exportar CSV</button>
+          </div>
+        </form>
+
+        <div class="note mt-10">Dica: clique em <strong>Editar</strong> na tabela
+          para atualizar um registro existente.</div>
+      </div>
+
+      <div class="card">
+        <div class="toolbar">
+          <div class="left">
+            <input id="search" class="search" placeholder="Pesquisar por nome, e-mail ou área" />
+          </div>
+          <div>
+            <span class="small">Registros: <strong id="count">0</strong></span>
+          </div>
+        </div>
+
+        <div class="table-wrap">
+          <table aria-label="Tabela de candidatos">
+            <thead>
+              <tr>
+                <th>Nome</th>
+                <th>E-mail</th>
+                <th>Telefone</th>
+                <th>Área</th>
+                <th>Data</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="tbody">
+              <!-- rows -->
+            </tbody>
+          </table>
+        </div>
+
+        <footer>Salvo no armazenamento do Google Planilhas. Você pode exportar os registros como CSV ou acessar o <a href="https://docs.google.com/spreadsheets/d/1OdMG-x0yD_UmWN7yf-uY3uYeuUHzRf-NTyMRGwHsGfI/edit?usp=sharing" target="_blank" style="color: bisque;">link da planilha</a>.</footer>
+      </div>
+    </div>
+
+    <!-- modal edit -->
+    <div id="modal" class="modal" role="dialog" aria-modal="true" aria-hidden="true">
+      <div class="panel card" role="document">
+        <h3>Editar registro</h3>
+        <form id="formEdit">
+          <div class="field">
+            <label for="e_nome">Nome completo</label>
+            <input id="e_nome" name="e_nome" required />
+          </div>
+          <div class="field">
+            <label for="e_email">E‑mail</label>
+            <input id="e_email" name="e_email" type="email" required />
+          </div>
+          <div class="field">
+            <label for="e_telefone">Telefone</label>
+            <input id="e_telefone" name="e_telefone" />
+          </div>
+          <div class="field">
+            <label for="e_area">Área de interesse</label>
+            <select id="e_area" name="e_area">
+              <option>Desenvolvimento</option>
+              <option>Design</option>
+              <option>Produto</option>
+              <option>Dados</option>
+              <option>Outros</option>
+            </select>
+          </div>
+          <div class="actions">
+            <button type="submit">Salvar alterações</button>
+            <button id="btnCancelEdit" type="button" class="ghost">Cancelar</button>
+            <button id="btnDelete" type="button" class="danger">Excluir</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+  </div>
+</body>
+
+<script src="cadastro_candidatos_app.js"></script>
+
+</html>
