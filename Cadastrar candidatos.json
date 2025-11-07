@@ -1,0 +1,552 @@
+{
+  "name": "Cadastrar candidatos",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "cadastro-candidatos",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        64
+      ],
+      "id": "4f4b72ce-dc98-4de6-a1e1-b64bf00f080a",
+      "name": "Webhook - Salvar dados",
+      "webhookId": "da991b45-364d-4c7a-8531-456784da6a44",
+      "alwaysOutputData": false
+    },
+    {
+      "parameters": {
+        "path": "listar-candidatos",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        224
+      ],
+      "id": "6f7ff80b-8c84-4bd7-bd0d-0d04a93d8a65",
+      "name": "Webhook - Exibir Dados",
+      "webhookId": "3eae3f2d-e3e6-4504-a507-7adb89688a73"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify($json[\"data\"]) }}",
+        "options": {
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Access-Control-Allow-Origin",
+                "value": "*"
+              },
+              {
+                "name": "Access-Control-Allow-Methods",
+                "value": "GET, OPTIONS"
+              },
+              {
+                "name": "Access-Control-Allow-Headers",
+                "value": "Content-Type"
+              }
+            ]
+          }
+        }
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        672,
+        224
+      ],
+      "id": "9f14b34e-7a67-4fcf-a9d6-b97b5167d889",
+      "name": "Respond to Webhook"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "editar-candidato",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        400
+      ],
+      "id": "a25f0877-0030-46d0-a2b8-50398489c15a",
+      "name": "Webhook - Editar",
+      "webhookId": "d4b042fb-8cf7-4524-b7c4-2e15054fb96a"
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        448,
+        224
+      ],
+      "id": "124c12e6-7696-43c5-8749-539f74af268d",
+      "name": "Aggregate"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "deletar-candidato",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        592
+      ],
+      "id": "88a28c95-0cd3-4c87-b03b-c89bbe75dd90",
+      "name": "Webhook",
+      "webhookId": "405d60a4-a8af-4b10-bd7c-24665b0b4e11"
+    },
+    {
+      "parameters": {
+        "operation": "delete",
+        "documentId": {
+          "__rl": true,
+          "value": "1OdMG-x0yD_UmWN7yf-uY3uYeuUHzRf-NTyMRGwHsGfI",
+          "mode": "list",
+          "cachedResultName": "Candidatos",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1OdMG-x0yD_UmWN7yf-uY3uYeuUHzRf-NTyMRGwHsGfI/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Candidatos",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1OdMG-x0yD_UmWN7yf-uY3uYeuUHzRf-NTyMRGwHsGfI/edit#gid=0"
+        },
+        "startIndex": "={{ $json.row_number }}",
+        "numberToDelete": "=1"
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        448,
+        592
+      ],
+      "id": "e089b995-76ba-4aa7-99b1-91121c23f414",
+      "name": "Delete rows or columns from sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "TVwy7EGO734yLI4G",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1OdMG-x0yD_UmWN7yf-uY3uYeuUHzRf-NTyMRGwHsGfI",
+          "mode": "list",
+          "cachedResultName": "Candidatos",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1OdMG-x0yD_UmWN7yf-uY3uYeuUHzRf-NTyMRGwHsGfI/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "mode": "name",
+          "value": "Candidatos"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "id": "={{ $json.body.id }}",
+            "nome": "={{ $json.body.nome }}",
+            "email": "={{ $json.body.email }}",
+            "telefone": "={{ $json.body.telefone }}",
+            "data": "={{ $json.body.data }}",
+            "area": "={{ $json.body.area }}"
+          },
+          "matchingColumns": [
+            "id"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "nome",
+              "displayName": "nome",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "email",
+              "displayName": "email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "telefone",
+              "displayName": "telefone",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "area",
+              "displayName": "area",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "data",
+              "displayName": "data",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        224,
+        64
+      ],
+      "id": "c0bf80e2-40b0-4b90-9981-901a07271a91",
+      "name": "Planilhas - Salvar dados",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "TVwy7EGO734yLI4G",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1OdMG-x0yD_UmWN7yf-uY3uYeuUHzRf-NTyMRGwHsGfI",
+          "mode": "list",
+          "cachedResultName": "Candidatos",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1OdMG-x0yD_UmWN7yf-uY3uYeuUHzRf-NTyMRGwHsGfI/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "Candidatos",
+          "mode": "name"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        224,
+        224
+      ],
+      "id": "6f6b6c30-ee9e-4bec-9249-1452ee615f0e",
+      "name": "Planilhas - Exibir dados",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "TVwy7EGO734yLI4G",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1OdMG-x0yD_UmWN7yf-uY3uYeuUHzRf-NTyMRGwHsGfI",
+          "mode": "list",
+          "cachedResultName": "Candidatos",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1OdMG-x0yD_UmWN7yf-uY3uYeuUHzRf-NTyMRGwHsGfI/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Candidatos",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1OdMG-x0yD_UmWN7yf-uY3uYeuUHzRf-NTyMRGwHsGfI/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "row_number": 0,
+            "id": "={{ $json.body.id }}",
+            "nome": "={{ $json.body.nome }}",
+            "email": "={{ $json.body.email }}",
+            "telefone": "={{ $json.body.telefone }}",
+            "area": "={{ $json.body.area }}"
+          },
+          "matchingColumns": [
+            "id"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "nome",
+              "displayName": "nome",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "email",
+              "displayName": "email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "telefone",
+              "displayName": "telefone",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "area",
+              "displayName": "area",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "data",
+              "displayName": "data",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        224,
+        400
+      ],
+      "id": "87278a91-32dd-4a84-9653-8e247f2a0d86",
+      "name": "Planilhas - Atualizar dados",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "TVwy7EGO734yLI4G",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1OdMG-x0yD_UmWN7yf-uY3uYeuUHzRf-NTyMRGwHsGfI",
+          "mode": "list",
+          "cachedResultName": "Candidatos",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1OdMG-x0yD_UmWN7yf-uY3uYeuUHzRf-NTyMRGwHsGfI/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Candidatos",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1OdMG-x0yD_UmWN7yf-uY3uYeuUHzRf-NTyMRGwHsGfI/edit#gid=0"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "id",
+              "lookupValue": "={{ $json.body.id }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        224,
+        592
+      ],
+      "id": "067377d0-61e8-4e78-a786-8e68afec0515",
+      "name": "Planilhas - Excluir dados",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "TVwy7EGO734yLI4G",
+          "name": "Google Sheets account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook - Salvar dados": {
+      "main": [
+        [
+          {
+            "node": "Planilhas - Salvar dados",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook - Exibir Dados": {
+      "main": [
+        [
+          {
+            "node": "Planilhas - Exibir dados",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook - Editar": {
+      "main": [
+        [
+          {
+            "node": "Planilhas - Atualizar dados",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Planilhas - Excluir dados",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Planilhas - Salvar dados": {
+      "main": [
+        []
+      ]
+    },
+    "Planilhas - Exibir dados": {
+      "main": [
+        [
+          {
+            "node": "Aggregate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Planilhas - Excluir dados": {
+      "main": [
+        [
+          {
+            "node": "Delete rows or columns from sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "074a8df2-0593-458b-87b1-e653bd61b8f0",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "443cc4fd5f60697b2e5962999b1776c4cba38099691fa6256cf679d0c5d0bff3"
+  },
+  "id": "7ggyMZ7bOPZSotLB",
+  "tags": []
+}
