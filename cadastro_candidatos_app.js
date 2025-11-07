@@ -31,19 +31,33 @@ async function loadFromN8N() {
   try {
     const res = await fetch(N8N_WEBHOOK_GET);
     if (!res.ok) throw new Error('Erro ao consultar servidor');
-    const data = await res.json();
 
+    const text = await res.text(); // Lê como texto cru primeiro
+    if (!text) {
+      console.warn('Nenhum dado retornado do n8n — planilha vazia.');
+      items = [];
+      render();
+      return;
+    }
+
+    let data;
+    try {
+      data = JSON.parse(text);
+    } catch (e) {
+      console.error('Erro ao fazer parse do JSON retornado:', e);
+      items = [];
+      render();
+      return;
+    }
+
+    console.log("Retorno bruto do N8N:", data);
+
+    // Garante que `rows` seja um array de candidatos
     let rows = [];
-
     if (Array.isArray(data)) {
-      // Caso padrão: [{ data: [...] }]
-      if (Array.isArray(data[0]?.data)) {
-        rows = data[0].data;
-      } else {
-        rows = data;
-      }
+      if (Array.isArray(data[0]?.data)) rows = data[0].data;
+      else rows = data;
     } else if (Array.isArray(data.data)) {
-      // Caso alternativo: { data: [...] }
       rows = data.data;
     }
 
@@ -51,11 +65,11 @@ async function loadFromN8N() {
 
     items = rows.map(r => ({
       id: r.id || Date.now().toString(36),
-      nome: r.nome,
-      email: r.email,
-      telefone: r.telefone,
-      area: r.area,
-      data: r.data
+      nome: r.nome || '',
+      email: r.email || '',
+      telefone: r.telefone || '',
+      area: r.area || '',
+      data: r.data || ''
     }));
 
     render();
@@ -65,6 +79,7 @@ async function loadFromN8N() {
     alert('Erro ao carregar dados do servidor');
   }
 }
+
 
 // Enviar novo candidato para o N8N (POST)
 form.addEventListener('submit', async e => {
