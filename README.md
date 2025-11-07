@@ -13,7 +13,7 @@ Contém o formulário de cadastro, a tabela dinâmica de resultados, o campo de 
 Usa um tema escuro com tons suaves e transparências, inspirado em interfaces modernas de dashboards.
 - `cadastro_candidatos_app.js` — Lógica principal do app.
 Implementa toda a parte de CRUD via Fetch API, integração com os webhooks do n8n, manipulação da tabela, busca em tempo real e exportação CSV.
-
+- `Planilha utilizada` - https://docs.google.com/spreadsheets/d/1OdMG-x0yD_UmWN7yf-uY3uYeuUHzRf-NTyMRGwHsGfI/edit?usp=sharing
 ⚙️ Integração com o n8n + Google Planilhas
 
 O projeto foi conectado a quatro webhooks distintos configurados no n8n, cada um responsável por uma operação:
